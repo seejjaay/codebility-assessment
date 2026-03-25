@@ -71,8 +71,8 @@ app.post("/api/todos", (req, res) => {
 app.put("/api/todos/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
-  const todo = todos.find((todo) => {
-    return todo.id === id;
+  const todo = todos.find((t) => {
+    return t.id === id;
   });
 
   if (!todo) {
@@ -90,4 +90,24 @@ app.put("/api/todos/:id", (req, res) => {
   }
 
   res.json(todo);
+});
+
+// deletes a todo item
+app.delete("/api/todos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const todoIndex = todos.findIndex((t) => {
+    t.id === id;
+  });
+
+  if (todoIndex !== -1) {
+    return res.status(404).json({ message: "Todo not found" });
+  }
+
+  const deletedTodo = todos.splice(todoIndex, 1);
+
+  res.json({
+    message: "Deleted Todo successfully.",
+    todo: deletedTodo[0],
+  });
 });
