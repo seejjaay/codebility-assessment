@@ -98,7 +98,7 @@ app.delete("/api/todos/:id", (req, res) => {
   const id = parseInt(req.params.id);
 
   const todoIndex = todos.findIndex((t) => {
-    t.id === id;
+    return t.id === id;
   });
 
   if (todoIndex !== -1) {
