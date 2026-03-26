@@ -17,13 +17,13 @@ app.listen(PORT, () => {
 let todos = [
   {
     id: 1,
-    title: "title1",
+    title: "Cook pasta",
     completed: true,
     createdAt: "01-01-2026",
   },
   {
     id: 2,
-    title: "title2",
+    title: "Do homework",
     completed: true,
     createdAt: "03-23-2026",
   },
@@ -34,7 +34,7 @@ app.get("/api/todos", (req, res) => {
   res.json(todos);
 });
 
-//get a single todo
+//get a single todo item
 app.get("/api/todos/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const todo = todos.find((t) => {
@@ -56,11 +56,12 @@ app.post("/api/todos", (req, res) => {
     return res.status(400).json({ message: "Title is required" });
   }
 
+  const date = new Date();
   const newTodo = {
     id: todos.length ? todos[todos.length - 1].id + 1 : 1,
     title: title,
     completed: false,
-    createdAt: new Date().toISOString(),
+    createdAt: date.toLocaleDateString("en-US"),
   };
 
   todos.push(newTodo);
