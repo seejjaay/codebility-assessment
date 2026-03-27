@@ -8,14 +8,14 @@ const {
   deleteTodoById,
 } = require("../controllers/todosControllers.js");
 
-router.get("/api/todos", getAllTodos);
+router.get("/", getAllTodos);
 
-router.get("/api/todos/:id", getTodoById);
+router.get("/:id", getTodoById);
 
-router.post("/api/todos", createTodo);
+router.post("/", createTodo);
 
-router.put("/api/todos/:id", updateTodoById);
+router.put("/:id", updateTodoById);
 
-router.delete("/api/todos/:id", deleteTodoById);
+router.delete("/:id", deleteTodoById);
 
 module.exports = router;

@@ -7,7 +7,7 @@ const todoRoutes = require("./routes/todos.js");
 
 app.use(express.json());
 
-app.use("/", todoRoutes);
+app.use("/api/todos", todoRoutes);
 
 // Start server
 app.listen(PORT, () => {

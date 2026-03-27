@@ -8,6 +8,9 @@ exports.getAllTodos = (req, res) => {
 // gets a todo item by id
 exports.getTodoById = (req, res) => {
   const id = parseInt(req.params.id);
+  if (isNaN(id)) {
+    return res.status(400).json({ message: "Invalid ID" });
+  }
   const todo = todos.find((t) => {
     return t.id === id;
   });
@@ -24,7 +27,7 @@ exports.createTodo = (req, res) => {
   const { title } = req.body;
 
   if (!title) {
-    return res.status(400).json({ message: "Title is required" });
+    return res.status(404).json({ message: "Title is required" });
   }
 
   const date = new Date();
@@ -42,6 +45,9 @@ exports.createTodo = (req, res) => {
 // updates the todo item
 exports.updateTodoById = (req, res) => {
   const id = parseInt(req.params.id);
+  if (isNaN(id)) {
+    return res.status(400).json({ message: "Invalid ID" });
+  }
 
   const todo = todos.find((t) => {
     return t.id === id;
@@ -58,9 +64,12 @@ exports.updateTodoById = (req, res) => {
     todo.title = title;
   }
   if (completed !== undefined) {
+    if (typeof completed !== "boolean") {
+      // validation if completed is boolean
+      return res.status(400).json({ message: "Completed must be boolean" });
+    }
     todo.completed = completed;
   }
-
   res.json(todo);
 };
 
@@ -68,6 +77,9 @@ exports.updateTodoById = (req, res) => {
 exports.deleteTodoById = (req, res) => {
   const id = parseInt(req.params.id);
 
+  if (isNaN(id)) {
+    return res.status(400).json({ message: "Invalid ID" });
+  }
   const todoIndex = todos.findIndex((t) => {
     return t.id === id;
   });
