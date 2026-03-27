@@ -1,9 +1,11 @@
 const todos = require("../data/data.js");
 
+// gets all todo items
 exports.getAllTodos = (req, res) => {
   res.json(todos);
 };
 
+// gets a todo item by id
 exports.getTodoById = (req, res) => {
   const id = parseInt(req.params.id);
   const todo = todos.find((t) => {
@@ -17,6 +19,7 @@ exports.getTodoById = (req, res) => {
   res.json(todo);
 };
 
+// creates a new todo item
 exports.createTodo = (req, res) => {
   const { title } = req.body;
 
@@ -36,6 +39,7 @@ exports.createTodo = (req, res) => {
   res.status(201).json(newTodo);
 };
 
+// updates the todo item
 exports.updateTodoById = (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -60,6 +64,7 @@ exports.updateTodoById = (req, res) => {
   res.json(todo);
 };
 
+// deletes todo item by id
 exports.deleteTodoById = (req, res) => {
   const id = parseInt(req.params.id);
 

@@ -1,3 +1,5 @@
+// sample data
+
 const todos = [
   {
     id: 1,
