@@ -1,41 +1,10 @@
-const express = require("express");
-const app = express();
-const PORT = process.env.PORT || 10533;
+const todos = require("../data/data.js");
 
-app.use(express.json());
-
-// Basic route
-app.get("/", (req, res) => {
-  res.send("Hello from Express!");
-});
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`Backend is running on http://localhost:${PORT}`);
-});
-
-let todos = [
-  {
-    id: 1,
-    title: "Cook pasta",
-    completed: true,
-    createdAt: "01-01-2026",
-  },
-  {
-    id: 2,
-    title: "Do homework",
-    completed: true,
-    createdAt: "03-23-2026",
-  },
-];
-
-//get all todos
-app.get("/api/todos", (req, res) => {
+exports.getAllTodos = (req, res) => {
   res.json(todos);
-});
+};
 
-//get a single todo item
-app.get("/api/todos/:id", (req, res) => {
+exports.getTodoById = (req, res) => {
   const id = parseInt(req.params.id);
   const todo = todos.find((t) => {
     return t.id === id;
@@ -46,10 +15,9 @@ app.get("/api/todos/:id", (req, res) => {
   }
 
   res.json(todo);
-});
+};
 
-//posts a new Todo Item
-app.post("/api/todos", (req, res) => {
+exports.createTodo = (req, res) => {
   const { title } = req.body;
 
   if (!title) {
@@ -66,10 +34,9 @@ app.post("/api/todos", (req, res) => {
 
   todos.push(newTodo);
   res.status(201).json(newTodo);
-});
+};
 
-//updates a Todo Item
-app.put("/api/todos/:id", (req, res) => {
+exports.updateTodoById = (req, res) => {
   const id = parseInt(req.params.id);
 
   const todo = todos.find((t) => {
@@ -77,7 +44,7 @@ app.put("/api/todos/:id", (req, res) => {
   });
 
   if (!todo) {
-    return res.status(400).json({ message: "Todo not found" });
+    return res.status(404).json({ message: "Todo not found" });
   }
 
   const { title, completed } = req.body;
@@ -91,17 +58,16 @@ app.put("/api/todos/:id", (req, res) => {
   }
 
   res.json(todo);
-});
+};
 
-// deletes a todo item
-app.delete("/api/todos/:id", (req, res) => {
+exports.deleteTodoById = (req, res) => {
   const id = parseInt(req.params.id);
 
   const todoIndex = todos.findIndex((t) => {
     return t.id === id;
   });
 
-  if (todoIndex !== -1) {
+  if (todoIndex === -1) {
     return res.status(404).json({ message: "Todo not found" });
   }
 
@@ -111,4 +77,4 @@ app.delete("/api/todos/:id", (req, res) => {
     message: "Deleted Todo successfully.",
     todo: deletedTodo[0],
   });
-});
+};
